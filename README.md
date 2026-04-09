@@ -1,23 +1,25 @@
 # Quant Trading System
 
-Systematic trading engine with realistic execution modeling, multi-strategy portfolio construction, and out-of-sample validation.
+Systematic long-only trading strategy with realistic execution modeling,regime filtering and out-of-sample validation.
 
 ---
 
 ## Overview
 
-This project implements a quantitative trading framework designed to simulate real-world trading conditions.  
-The focus is on building strategies that remain robust after accounting for execution delays, transaction costs, and market regimes.
-
-Unlike typical academic backtests, this system incorporates practical constraints such as T+1 execution and regime-dependent risk control.
+This project implements a quantitative trading system focused on long-only equity strategies.
+The objective is to capture medium- to long-term momentum while controlling downside risk using regime filters and volatility-aware position sizing.
+The system is designed with real-world trading constraints, including execution delay (T+1), transaction costs, and market regime changes.
+Tested on Indian equity markets (2010–2025) with strict separation between training and out-of-sample periods.
 
 ---
 
 ## Key Features
 
-- Multi-strategy portfolio (momentum + trend filtering)
+- Long-only momentum strategy
 - T+1 execution to eliminate lookahead bias
 - Transaction cost and slippage modeling (0.268% per trade)
+- Delisting and missing data handling
+- Lower circuit / execution constraints modeled
 - Regime-based exposure control using market breadth indicators
 - Volatility-adjusted position sizing
 - Walk-forward and out-of-sample validation
@@ -30,7 +32,7 @@ Unlike typical academic backtests, this system incorporates practical constraint
 The system combines multiple components:
 
 ### 1. Momentum Layer
-- Kalman Momentum for true direction of the stock, ignoring the noise.
+- Kalman-filter smoothed price for noise reduction.
 - 1-month, 6-month, and 12-month returns
 - Cross-sectional ranking across stocks
 
@@ -44,7 +46,7 @@ The system combines multiple components:
 ### 4. Risk Management
 - Volatility-based position sizing  
 - Trailing stop-loss  
-- Max position constraints  
+- Maximum position constraints  
 - Portfolio diversification  
 
 ---
@@ -58,36 +60,55 @@ The system combines multiple components:
 
 ---
 
-## Results
+## In-Sample Results 
 
-| Metric                 | Value   |
+| Metric                 |In-Sample|
 |------------------------|---------|
 | CAGR                   | 22.37%  |
 | Sharpe Ratio           | 1.86    |
 | Max Drawdown           | -19.41% |
-| Annualized Volatility  | -19.4%  |
+| Annualized Volatility  | 11.41%  |
 | Win Rate               | 55.66%  |
 
 ---
 
-## Out-of-Sample Validation
+## Out-of-Sample Results
 
-| Metric        | In-Sample | Out-of-Sample |
-|--------------|----------|---------------|
-| CAGR         | XX%      | XX%           |
-| Drawdown     | XX%      | XX%           |
-| Sharpe       | X.X      | X.X           |
+| Metric                 |Out-of-Sample|
+|------------------------|-------------|
+| CAGR                   |             |
+| Sharpe Ratio           |             |
+| Max Drawdown           |             |
+| Annualized Volatility  |             |
+| Win Rate               |             |
 
 Performance remains stable out-of-sample, indicating limited overfitting.
 
 ---
 
-## Key Insights
+## Realism Constraints
 
-- Execution costs significantly reduce inflated backtest performance  
-- Regime-based exposure improves drawdown control  
-- Momentum works better when combined with trend filters  
-- Diversification improves risk-adjusted returns  
+- T+1 execution (signals executed next day)  
+- Transaction cost: 0.268% per trade  
+- No lookahead bias  
+- Delisting and missing data handled  
+- Lower circuit execution constraints modeled  
+
+---
+
+## Why This Strategy Works
+
+- Momentum persists due to behavioral biases and slow information diffusion  
+- Trend filters avoid weak market regimes  
+- Regime-based exposure reduces drawdowns in bearish conditions
+
+---
+
+## Limitations
+
+- Does not model full market impact  
+- Assumes sufficient liquidity  
+- Performance may degrade in highly efficient markets  
 
 ---
 
@@ -100,3 +121,9 @@ Performance remains stable out-of-sample, indicating limited overfitting.
 ## How to Run
 pip install -r requirements.txt  
 python strategy.py
+
+---
+
+## License
+
+MIT License
