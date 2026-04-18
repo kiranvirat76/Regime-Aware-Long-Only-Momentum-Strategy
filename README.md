@@ -1,12 +1,14 @@
-# Quant Trading System
+# Regime-Aware Long-Only Momentum Strategy
 
-Systematic long-only trading strategy with realistic execution modeling,regime filtering and evaluated based on out-of-sample validation.
 Ranked 2nd in Kriti’26 Quant Competition (evaluated on unseen data)
 
 ---
 
-## Overview
+Systematic long-only trading strategy with realistic execution modeling,regime filtering and evaluated based on out-of-sample validation.
+---
 
+## Overview
+ 
 This project implements a quantitative trading system focused on long-only equity strategies.
 The objective is to capture medium- to long-term momentum while controlling downside risk using regime filters and volatility-aware position sizing.
 The system is designed with real-world trading constraints, including execution delay (T+1), transaction costs, and market regime changes.
